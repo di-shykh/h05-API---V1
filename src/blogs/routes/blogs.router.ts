@@ -11,8 +11,8 @@ import {superAdminMiddleware} from "../../auth/middlewares/super-admin.guard-mid
 import {paginationAndSortingValidation} from "../../core/middlewares/validation/query-pagination-sorting.validation";
 import {BlogSortField} from "./input/blog-sort-field";
 import {getBlogPostListHandler} from "./handlers/get-blog-post-list.handler";
-import {PostSortField} from "../../posts/routers/input/post-sort-field";
-import {postCreateForBlogInputValidation} from "../../posts/routers/post.input-dto.validation-middlewares";
+import {PostSortField} from "../../posts/routes/input/post-sort-field";
+import {postCreateForBlogInputValidation} from "../../posts/routes/post.input-dto.validation-middlewares";
 import {createBlogPostHandler} from "./handlers/create-blog-post.handler";
 import {blogExistingIdValidationMiddleware} from "./blog.existing-id-validation-middleware";
 

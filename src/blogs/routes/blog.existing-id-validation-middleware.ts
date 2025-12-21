@@ -5,6 +5,7 @@ import {blogsRepository} from "../repositories/blogs.repository";
 import {RepositoryNotFoundError} from "../../core/errors/repository-not-found.error";
 import {errorHandler} from "../../core/errors/error.handler";
 import {ObjectId} from "mongodb";
+import {blogsQueryRepository} from "../repositories/blogs.query-repository";
 
 function isValidObjectId(id: string): boolean {
     try{
@@ -25,7 +26,7 @@ export const blogExistingIdValidationMiddleware = async (
     try{
         if(id) {
             if(isValidObjectId(id)) {
-                const blog = await blogsRepository.findBlogByIdOrFail(id);
+                const blog = await blogsQueryRepository.findBlogByIdOrFail(id);
                 if(!blog) {
                     console.log("error blogWithIdExistsValidation in if");
                     throw new RepositoryNotFoundError(`Blog with id ${id} not found`);

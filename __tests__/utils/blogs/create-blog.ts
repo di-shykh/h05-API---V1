@@ -4,8 +4,8 @@ import {HttpStatus} from "../../../src/core/types/http-statuses";
 import {generateBasicAuthToken} from "../generate-admin-auth-token";
 import {BLOGS_PATH} from "../../../src/core/paths/paths";
 import {BlogAttributes} from "../../../src/blogs/application/dtos/blog-attributes";
-import {BlogOutput} from "../../../src/blogs/routers/output/blog.output";
-import {BlogCreateInput} from "../../../src/blogs/routers/input/blog-create.input";
+import {BlogOutput} from "../../../src/blogs/routes/output/blog.output";
+import {BlogCreateInput} from "../../../src/blogs/routes/input/blog-create.input";
 import {getBlogDto} from "./get-blog-dto";
 
 export async function createBlog(app: Express, blogDto?: BlogAttributes): Promise<BlogOutput> {

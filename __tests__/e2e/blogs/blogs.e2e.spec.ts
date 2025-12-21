@@ -13,9 +13,9 @@ import {createBlog} from "../../utils/blogs/create-blog";
 import {getBlogById} from "../../utils/blogs/get-blog-by-id";
 import {updateBlog} from "../../utils/blogs/update-blog";
 import {after} from "node:test";
-import {BlogUpdateInput} from "../../../src/blogs/routers/input/blog-update.input";
+import {BlogUpdateInput} from "../../../src/blogs/routes/input/blog-update.input";
 import {BlogAttributes} from "../../../src/blogs/application/dtos/blog-attributes";
-import {PostOutput} from "../../../src/posts/routers/output/post-output";
+import {PostOutput} from "../../../src/posts/routes/output/post-output";
 import {createBlogPost} from "../../utils/blogs/create-blog-post";
 import {getBlogPosts} from "../../utils/blogs/get-blog-post";
 

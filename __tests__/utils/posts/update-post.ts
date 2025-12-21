@@ -7,7 +7,7 @@ import {POSTS_PATH} from '../../../src/core/paths/paths';
 import {generateBasicAuthToken} from '../generate-admin-auth-token';
 import {createBlog} from "../blogs/create-blog";
 import {PostAttributes} from "../../../src/posts/application/dtos/post-attributs";
-import {PostUpdateInput} from "../../../src/posts/routers/input/post-update.input";
+import {PostUpdateInput} from "../../../src/posts/routes/input/post-update.input";
 
 export async function updatePost(
     app: Express,

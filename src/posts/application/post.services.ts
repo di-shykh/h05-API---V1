@@ -1,25 +1,11 @@
-import {blogsRepository} from "../../blogs/repositories/blogs.repository";
 import {postsRepository} from "../repositories/posts.repository";
-import {ObjectId, WithId} from "mongodb";
-import {Blog} from "../../blogs/types/blog";
-import {Post} from "../domain/post";
 import {PostAttributes} from "./dtos/post-attributs";
-import {PostQueryInput} from "../routers/input/post-query.input";
 import {RepositoryNotFoundError} from "../../core/errors/repository-not-found.error";
+import {blogsQueryRepository} from "../../blogs/repositories/blogs.query-repository";
 
 export const postsService = {
-    async findManyPosts(queryDto: PostQueryInput): Promise<{items: WithId<Post>[], totalCount: number}> {
-        return await postsRepository.findManyPosts(queryDto);
-    },
-    async findPostByIdOrFail(postId: string): Promise<WithId<Post>> {
-        return await postsRepository.findPostByIdOrFail(postId);
-    },
-    async findPostsByBlogId(blogId: string, queryDto?: PostQueryInput): Promise<{items: WithId<Post>[], totalCount: number}> {
-        await blogsRepository.findBlogByIdOrFail(blogId);
-        return await postsRepository.findPostsByBlogId(blogId, queryDto);
-    },
     async createPost(dto: PostAttributes): Promise<string> {
-        const blog = await blogsRepository.findBlogByIdOrFail(dto.blogId);
+        const blog = await blogsQueryRepository.findBlogByIdOrFail(dto.blogId);
         if(!blog){
             throw new RepositoryNotFoundError("Blog does not exist");
         }

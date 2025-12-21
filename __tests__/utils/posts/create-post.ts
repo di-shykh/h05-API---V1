@@ -7,7 +7,7 @@ import {POSTS_PATH} from "../../../src/core/paths/paths";
 import {getPostDto} from "./get-post-dto";
 import {createBlog} from "../blogs/create-blog";
 import {PostAttributes} from "../../../src/posts/application/dtos/post-attributs";
-import {PostOutput} from "../../../src/posts/routers/output/post-output";
+import {PostOutput} from "../../../src/posts/routes/output/post-output";
 
 export async function createPost(app: Express, postDto?: PostAttributes): Promise<PostOutput> {
     const blog = await createBlog(app);

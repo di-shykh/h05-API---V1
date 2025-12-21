@@ -1,11 +1,10 @@
 import {Request, Response} from "express";
 import {HttpStatus} from "../../../core/types/http-statuses";
-import {mapToBlogListPaginatedOutput} from "../mappers/map-to-blog-list-paginated-output";
-import {blogsService} from "../../application/blog.service";
 import {errorHandler} from "../../../core/errors/error.handler";
 import {BlogQueryInput} from "../input/blog-query.input";
 import {setDefaultSortAndPaginationIfNotExist} from "../../../core/helpers/set-default-sort-and-pagination";
 import {matchedData} from "express-validator";
+import {blogsQueryRepository} from "../../repositories/blogs.query-repository";
 
 export async function getBlogListHandler(
     req: Request,
@@ -19,8 +18,8 @@ export async function getBlogListHandler(
         });//утилита для извечения трансформированных значений после валидатара
         //в req.query остаются сырые квери параметры (строки)
         const queryInput = setDefaultSortAndPaginationIfNotExist({...query, ...sanitizedQuery});
-        const {items, totalCount} = await blogsService.findMany(queryInput);
-        const blogsListOutput = mapToBlogListPaginatedOutput(items,
+        const {items, totalCount} = await blogsQueryRepository.findManyBlogs(queryInput);
+        const blogsListOutput = blogsQueryRepository.mapToBlogListPaginatedOutput(items,
             queryInput.pageNumber,
             queryInput.pageSize,
             totalCount,

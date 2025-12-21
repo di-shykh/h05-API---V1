@@ -1,9 +1,9 @@
 import {PostAttributes} from "../../../src/posts/application/dtos/post-attributs";
-import {PostOutput} from "../../../src/posts/routers/output/post-output";
+import {PostOutput} from "../../../src/posts/routes/output/post-output";
 import {Express} from "express";
 import {getBlogById} from "./get-blog-by-id";
-import {PostCreateInput} from "../../../src/posts/routers/input/post-create.input";
-import {BlogOutput} from "../../../src/blogs/routers/output/blog.output";
+import {PostCreateInput} from "../../../src/posts/routes/input/post-create.input";
+import {BlogOutput} from "../../../src/blogs/routes/output/blog.output";
 import {BLOGS_PATH, POSTS_PATH} from "../../../src/core/paths/paths";
 import request from "supertest";
 import {generateBasicAuthToken} from "../generate-admin-auth-token";

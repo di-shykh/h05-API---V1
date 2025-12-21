@@ -1,7 +1,7 @@
 import express, { Express } from 'express';
-import { blogsRouter } from './blogs/routers/blogs.router';
-import { postsRouter } from './posts/routers/posts.router';
-import { testingRouter } from './testing/routers/testing.router';
+import { blogsRouter } from './blogs/routes/blogs.router';
+import { postsRouter } from './posts/routes/posts.router';
+import { testingRouter } from './testing/routes/testing.router';
 import { POSTS_PATH, BLOGS_PATH, TESTING_PATH } from "./core/paths/paths";
 import {HttpStatus} from "./core/types/http-statuses";
 

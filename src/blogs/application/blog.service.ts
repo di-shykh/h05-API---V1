@@ -1,20 +1,12 @@
 import {blogsRepository} from "../repositories/blogs.repository";
-import {ObjectId, WithId} from "mongodb";
+import {WithId} from "mongodb";
 import {Blog} from "../types/blog";
 import {postsRepository} from "../../posts/repositories/posts.repository";
 import {BlogAttributes} from "./dtos/blog-attributes";
-import {BlogQueryInput} from "../routers/input/blog-query.input";
 import {Post} from "../../posts/domain/post";
+import {postsQueryRepository} from "../../posts/repositories/posts.query-repository";
 
 export const blogsService = {
-    async findMany(
-        queryDto: BlogQueryInput,
-    ): Promise<{items: WithId<Blog>[]; totalCount: number}> {
-        return await blogsRepository.findManyBlogs(queryDto);
-    },
-    async findBlogByIdOrFail(id: string): Promise<WithId<Blog>> {
-        return await blogsRepository.findBlogByIdOrFail(id);
-    },
     async create(dto: BlogAttributes): Promise<string> {
         const newBlog: Blog = {
             name: dto.name,
@@ -30,7 +22,7 @@ export const blogsService = {
        return;
     },
     async delete(id: string): Promise<void> {
-        const postsWithBlogId = await postsRepository.findPostsByBlogId(id);
+        const postsWithBlogId = await postsQueryRepository.findPostsByBlogId(id);
         if(postsWithBlogId && postsWithBlogId.totalCount > 0){
             await Promise.all(postsWithBlogId.items.map( (post: WithId<Post>) => {
                 postsRepository.deletePost(post._id.toString())

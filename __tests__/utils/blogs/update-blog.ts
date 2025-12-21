@@ -4,7 +4,7 @@ import {HttpStatus} from '../../../src/core/types/http-statuses';
 import {BLOGS_PATH} from '../../../src/core/paths/paths';
 import {generateBasicAuthToken} from '../generate-admin-auth-token';
 import {BlogAttributes} from "../../../src/blogs/application/dtos/blog-attributes";
-import {BlogUpdateInput} from "../../../src/blogs/routers/input/blog-update.input";
+import {BlogUpdateInput} from "../../../src/blogs/routes/input/blog-update.input";
 import {getBlogDto} from "./get-blog-dto";
 
 export async function updateBlog(

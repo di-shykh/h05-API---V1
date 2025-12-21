@@ -1,6 +1,7 @@
 import {PostInputDto} from "../application/dtos/post.input-dto";
 import {ValidationError} from "../../core/utils/validationError";
 import {blogsRepository} from "../../blogs/repositories/blogs.repository";
+import {blogsQueryRepository} from "../../blogs/repositories/blogs.query-repository";
 
 export const postInputDtoValidation = (data: PostInputDto) :ValidationError[] => {
     const errors: ValidationError[] = [];
@@ -49,6 +50,6 @@ export function isValidId (id: string): boolean {
     return true;
 }
 export function isBlogIdExist(blogId: string): boolean {
-    const blog = blogsRepository.findBlogById(blogId);
+    const blog = blogsQueryRepository.findBlogById(blogId);
     return !!blog;
 }

@@ -1,5 +1,6 @@
 import {body} from "express-validator";
 import {blogsRepository} from "../../blogs/repositories/blogs.repository";
+import {blogsQueryRepository} from "../../blogs/repositories/blogs.query-repository";
 
 const titleValidation = body("title")
     .exists().withMessage("Title is required")
@@ -22,7 +23,7 @@ const blogIdValidation = body("blogId")
     .isString().withMessage("blogId should be string")
     .trim()
     .custom(async (id: string): Promise<boolean> => {
-        const blog = await blogsRepository.findBlogById(id);
+        const blog = await blogsQueryRepository.findBlogById(id);
         if (!blog) {
             throw new Error("blogId does not exist");
         }

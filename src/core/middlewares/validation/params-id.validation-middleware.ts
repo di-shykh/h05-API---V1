@@ -1,6 +1,7 @@
 import {param, body} from "express-validator";
 import {blogsRepository} from "../../../blogs/repositories/blogs.repository";
 import {RepositoryNotFoundError} from "../../errors/repository-not-found.error";
+import {blogsQueryRepository} from "../../../blogs/repositories/blogs.query-repository";
 
 export const idValidator = param("id")
     .exists().withMessage('id is required')
@@ -13,7 +14,7 @@ export const blogWithIdExistsValidation = param("id")
     .custom(async (id: string, { req }): Promise<boolean> => {
         if(id) {
             try{
-                const blog = await blogsRepository.findBlogByIdOrFail(id);
+                const blog = await blogsQueryRepository.findBlogByIdOrFail(id);
                 if(!blog) {
                     console.log("error blogWithIdExistsValidation in if");
                     throw new RepositoryNotFoundError(`Blog with id ${id} not found`);

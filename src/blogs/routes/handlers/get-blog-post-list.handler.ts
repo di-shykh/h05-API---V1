@@ -1,11 +1,9 @@
 import {Request, Response} from "express";
 import {errorHandler} from "../../../core/errors/error.handler";
-import {PostQueryInput} from "../../../posts/routers/input/post-query.input";
-import {postsService} from "../../../posts/application/post.services";
-import {mapToPostListPaginatedOutput} from "../../../posts/routers/mappers/map-to-post-list-paginated-output";
+import {PostQueryInput} from "../../../posts/routes/input/post-query.input";
 import {HttpStatus} from "../../../core/types/http-statuses";
 import {matchedData} from "express-validator";
-import {BlogQueryInput} from "../input/blog-query.input";
+import {postsQueryRepository} from "../../../posts/repositories/posts.query-repository";
 
 export async function getBlogPostListHandler(
     req: Request<{id: string}>,
@@ -18,8 +16,8 @@ export async function getBlogPostListHandler(
             locations: ['query'],
             includeOptionals: true,
         });
-        const { items, totalCount } = await postsService.findPostsByBlogId(blogId, sanitizedQuery);
-        const postListOutput = mapToPostListPaginatedOutput(items,
+        const { items, totalCount } = await postsQueryRepository.findPostsByBlogId(blogId, sanitizedQuery);
+        const postListOutput = postsQueryRepository.mapToPostListPaginatedOutput(items,
             sanitizedQuery.pageNumber,
             sanitizedQuery.pageSize,
             totalCount,
