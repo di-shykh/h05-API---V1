@@ -1,6 +1,5 @@
 import {PostInputDto} from "../application/dtos/post.input-dto";
 import {ValidationError} from "../../core/utils/validationError";
-import {blogsRepository} from "../../blogs/repositories/blogs.repository";
 import {blogsQueryRepository} from "../../blogs/repositories/blogs.query-repository";
 
 export const postInputDtoValidation = (data: PostInputDto) :ValidationError[] => {
