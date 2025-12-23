@@ -14,6 +14,5 @@ export async function createPostHandler(req: Request<{},{},PostCreateInput>, res
    } catch (e: unknown) {
        errorHandler(e, res);
    }
-
 }
 
