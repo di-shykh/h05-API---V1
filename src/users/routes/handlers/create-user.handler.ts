@@ -7,7 +7,7 @@ import {UserOutput} from "../output/user-output";
 export async function createUserHandler(req: Request<{},{}, UserCreateInput>, res: Response): Promise<void> {
     try {
         const createdUser = await usersService.createUser(req.body);
-        const insertedUser = await usersQueryRepository.findOrFail(createdUser);
+        const insertedUser = await usersQueryRepository.findUserByIdOrFail(createdUser);
         const userOutput: UserOutput = usersQueryRepository.mapToUserOutput(insertedUser);
     }catch(e: unknown) {
         errorHandler(e,res);
