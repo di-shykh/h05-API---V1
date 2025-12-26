@@ -1,6 +1,6 @@
 import {UserDB} from "../routes/output/user.db";
 import {userCollection} from "../../db/mongo.bd";
-import {ObjectId} from "mongodb";
+import {ObjectId, WithId} from "mongodb";
 import {RepositoryNotFoundError} from "../../core/errors/repository-not-found.error";
 
 export const usersRepository = {
@@ -14,5 +14,10 @@ export const usersRepository = {
             throw new RepositoryNotFoundError("User not found");
         }
         return;
-    }
+    },
+    async findByLoginOrEmail(loginOrEmail: string): Promise<WithId<UserDB>|null> {
+        return await userCollection.findOne({
+            $or: [{login: loginOrEmail }, { email: loginOrEmail }],
+        });
+    },
 }

@@ -6,6 +6,7 @@ import {UserOutput} from "../routes/output/user-output";
 import {UserQueryInput} from "../routes/input/user-query.input";
 import {UserListPaginatedOutput} from "../routes/output/user-list-paginted.output";
 import {PostOutput} from "../../posts/routes/output/post-output";
+import {UserDB} from "../routes/output/user.db";
 
 export const usersQueryRepository = {
     async findUserByIdOrFail(id: string): Promise<WithId<User>> {

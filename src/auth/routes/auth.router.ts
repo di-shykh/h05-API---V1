@@ -1,6 +1,7 @@
 import {Router} from "express";
 import {loginOrEmailValidation, passwordValidation} from "../../users/routes/user.input-dto.validation-middleware";
 import {inputValidationResultMiddleware} from "../../core/middlewares/validation/input-validation.result.middleware";
+import {authHandler} from "./auth.handler";
 
 export const authRouter: Router = Router({});
 
@@ -9,5 +10,5 @@ authRouter.post(
     passwordValidation,
     loginOrEmailValidation,
     inputValidationResultMiddleware,
-
-)
+    authHandler
+);
