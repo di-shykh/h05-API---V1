@@ -5,6 +5,7 @@ import { testingRouter } from './testing/routes/testing.router';
 import {POSTS_PATH, BLOGS_PATH, TESTING_PATH, AUTH_PATH, USERS_PATH} from "./core/paths/paths";
 import {HttpStatus} from "./core/types/http-statuses";
 import {usersRouter} from "./users/routes/user.router";
+import {authRouter} from "./auth/routes/auth.router";
 
 export const setupApp = (app: Express) => {
     app.use(express.json());
@@ -22,6 +23,8 @@ export const setupApp = (app: Express) => {
     console.log('✅ Routers initialized:'); // 🔥
     console.log('- Blogs:', BLOGS_PATH);
     console.log('- Posts:', POSTS_PATH);
+    console.log('- Users:', USERS_PATH);
+    console.log('- Auth:', AUTH_PATH);
     console.log('- Testing:', TESTING_PATH);
 
     return app;

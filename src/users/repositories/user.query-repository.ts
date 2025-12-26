@@ -1,17 +1,82 @@
-import {WithId} from "mongodb";
+import {ObjectId, WithId} from "mongodb";
 import {User} from "../domain/user";
 import {userCollection} from "../../db/mongo.bd";
+import {RepositoryNotFoundError} from "../../core/errors/repository-not-found.error";
+import {UserOutput} from "../routes/output/user-output";
+import {UserQueryInput} from "../routes/input/user-query.input";
+import {UserListPaginatedOutput} from "../routes/output/user-list-paginted.output";
+import {PostOutput} from "../../posts/routes/output/post-output";
 
 export const usersQueryRepository = {
-    async findUserByIdOrFail(id: string): Promise<WithId<User> {
-
+    async findUserByIdOrFail(id: string): Promise<WithId<User>> {
+        const user = await userCollection.findOne({_id: new ObjectId(id)});
+        if (!user) {
+            throw new RepositoryNotFoundError("User not found.");
+        }
+        return user;
     },
     async isEmailUnique(email: string): Promise<Boolean> {
         const emailNomilized = email.toLowerCase().trim();
-        const userId = await userCollection.findOne({email: emailNomilized});
-        return !userId;
+        const user = await userCollection.findOne({email: emailNomilized});
+        return !user;
     },
     async isLoginUnique(login: string): Promise<Boolean> {
-
+        const loginUser = login.trim();
+        const user = await userCollection.findOne({login: loginUser});
+        return !user;
+    },
+    async findManyUsers(queryDto: UserQueryInput): Promise<{items: WithId<User>[], totalCount: number}> {
+        const {
+            pageNumber,
+            pageSize,
+            sortBy,
+            sortDirection,
+            searchLoginTerm,
+            searchEmailTerm,
+        } = queryDto;
+        const skip = (pageNumber - 1) * pageSize;
+        const filter: any = {};
+        if (searchLoginTerm) {
+            filter.login = { $regex: searchLoginTerm, $options: "i" };
+        }
+        if(searchEmailTerm) {
+            filter.email = { $regex: searchEmailTerm, $options: "i" };
+        }
+        const items: WithId<User>[] = await userCollection
+            .find(filter)
+            .sort({[sortBy]: sortDirection})
+            .skip(skip)
+            .limit(pageSize)
+            .toArray();
+        const totalCount = await userCollection.countDocuments(filter);
+        return {items, totalCount};
+    },
+    mapToUserOutput(user: WithId<User>): UserOutput {
+        return {
+            id: user._id.toString(),
+            login: user.login,
+            email: user.email,
+            createdAt: user.createdAt,
+        }
+    },
+    mapToUserListPaginatedOutput(
+        users: WithId<User>[],
+        pageNumber: number,
+        pageSize: number,
+        totalCount: number,
+    ): UserListPaginatedOutput {
+        return {
+            pagesCount: Math.ceil(totalCount/pageSize),
+            page:pageNumber,
+            pageSize: pageSize,
+            totalCount:totalCount,
+            items: users.map((user): UserOutput => ({
+                    id: user._id.toString(),
+                    login: user.login,
+                    email: user.email,
+                    createdAt: user.createdAt,
+                }),
+            ),
+        }
     }
 }
