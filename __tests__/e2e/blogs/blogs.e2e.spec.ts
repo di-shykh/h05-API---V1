@@ -18,6 +18,7 @@ import {BlogAttributes} from "../../../src/blogs/application/dtos/blog-attribute
 import {PostOutput} from "../../../src/posts/routes/output/post-output";
 import {createBlogPost} from "../../utils/blogs/create-blog-post";
 import {getBlogPosts} from "../../utils/blogs/get-blog-post";
+import {SortDirection} from "../../../src/core/types/sort-direction";
 
 
 describe("Blogs API", () => {
@@ -131,5 +132,78 @@ describe("Blogs API", () => {
 
         expect(posts.items.length).toBeGreaterThanOrEqual(3);
         expect(posts.items).toBeInstanceOf(Array);
+    })
+    it('should return blogs list with pagination, sorting: GET /hometask_04/api/blogs/', async () => {
+        await createBlog(app, {
+            ...getBlogDto(),
+            name: "Blog name Di",
+            description: "Blog description New",
+            websiteUrl: "https://www.blogsNew.com/"
+        });
+        for(let i=0; i<20; i++){
+            await createBlog(app, {
+                ...getBlogDto(),
+                name: `Blog name ${i}`,
+            });
+        }
+        await createBlog(app, {
+            ...getBlogDto(),
+            name: "Diana's blog",
+            description: "Blog description New",
+            websiteUrl: "https://www.blogsNew.com/"
+        });
+        const respose = await request(app)
+            .get(BLOGS_PATH)
+            .set('Authorization', adminToken)
+            .query({
+                pageNumber: 1,
+                pageSize: 10,
+                sortBy: 'createdAt',
+                sortDirection: 'desc',
+            })
+            .expect(HttpStatus.Ok);
+
+        expect(respose.body).toHaveProperty('page',1);
+        expect(respose.body).toHaveProperty('pageSize', 10);
+        expect(respose.body).toHaveProperty('pagesCount');
+        expect(respose.body).toHaveProperty('totalCount', 22);
+        expect(respose.body.items).toHaveLength(10);
+    })
+    it('should return blogs list with pagination, sorting and search by name: GET /hometask_04/api/blogs/', async () => {
+        await createBlog(app, {
+            ...getBlogDto(),
+            name: "Blog name Di",
+            description: "Blog description New",
+            websiteUrl: "https://www.blogsNew.com/"
+        });
+        for(let i=0; i<20; i++){
+            await createBlog(app, {
+                ...getBlogDto(),
+                name: `Blog name ${i}`,
+            });
+        }
+        await createBlog(app, {
+            ...getBlogDto(),
+            name: "Diana's blog",
+            description: "Blog description New",
+            websiteUrl: "https://www.blogsNew.com/"
+        });
+        const respose = await request(app)
+            .get(BLOGS_PATH)
+            .set('Authorization', adminToken)
+            .query({
+                pageNumber: 1,
+                pageSize: 10,
+                searchNameTerm: 'Di',
+                sortBy: 'createdAt',
+                sortDirection: 'desc',
+            })
+            .expect(HttpStatus.Ok);
+
+        expect(respose.body).toHaveProperty('page',1);
+        expect(respose.body).toHaveProperty('pageSize', 10);
+        expect(respose.body).toHaveProperty('pagesCount');
+        expect(respose.body).toHaveProperty('totalCount', 2);
+        expect(respose.body.items).toHaveLength(2);
     })
 })

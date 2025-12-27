@@ -98,4 +98,33 @@ describe("Posts API", () => {
             .set('Authorization', adminToken);
         expect(postResponse.status).toBe(HttpStatus.NotFound);
     });
+    it('should return posts list with pagination and sorting: GET /hometask_04/api/posts/', async () => {
+      const newBlog = await createBlog(app);
+        await createPost(app, {
+            ...getPostDto(newBlog.id),
+            title: 'New post title Di',
+        });
+        for(let i=0; i<20; i++) {
+            await createPost(app, {
+                ...getPostDto(newBlog.id),
+                title: `New post title ${i}`,
+            });
+        }
+        const response = await request(app)
+            .get(POSTS_PATH)
+            .set('Authorization', adminToken)
+            .query({
+                pageNumber: 1,
+                pageSize: 10,
+                sortBy: 'createdAt',
+                sortDirection: 'desc',
+            })
+            .expect(HttpStatus.Ok);
+
+        expect(response.body).toHaveProperty('page', 1);
+        expect(response.body).toHaveProperty('pageSize', 10);
+        expect(response.body).toHaveProperty('pagesCount',3);
+        expect(response.body).toHaveProperty('totalCount', 21);
+        expect(response.body.items).toHaveLength( 10);
+    })
 })
