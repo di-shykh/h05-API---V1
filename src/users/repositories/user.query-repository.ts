@@ -36,11 +36,19 @@ export const usersQueryRepository = {
             searchEmailTerm,
         } = queryDto;
         const skip = (pageNumber - 1) * pageSize;
-        const filter: any = {};
-        if (searchLoginTerm) {
+        let filter: any = {};
+        if(searchLoginTerm && searchEmailTerm) {
+            filter = {
+                $or: [
+                    { login: { $regex: searchLoginTerm, $options: "i" }},
+                    {email: { $regex: searchEmailTerm, $options: "i" }},
+                ]
+            }
+        }
+        else if (searchLoginTerm) {
             filter.login = { $regex: searchLoginTerm, $options: "i" };
         }
-        if(searchEmailTerm) {
+        else if(searchEmailTerm) {
             filter.email = { $regex: searchEmailTerm, $options: "i" };
         }
         const items: WithId<User>[] = await userCollection

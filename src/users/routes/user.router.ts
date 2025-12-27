@@ -8,6 +8,7 @@ import {userCreateValidation} from "./user.input-dto.validation-middleware";
 import {createUserHandler} from "./handlers/create-user.handler";
 import {idValidator} from "../../core/middlewares/validation/params-id.validation-middleware";
 import {deleteUserHandler} from "./handlers/delete-user.handler";
+import {query} from "express-validator";
 
 export const usersRouter: Router = Router({});
 
@@ -15,7 +16,11 @@ usersRouter
     .get(
         "",
         superAdminMiddleware,
-        paginationAndSortingValidation(UserSortField),
+        [
+            ...paginationAndSortingValidation(UserSortField),
+            query('searchLoginTerm').optional().isString().trim(),
+            query('searchEmailTerm').optional().isString().trim()
+        ],
         inputValidationResultMiddleware,
         getUserListHandler
     )
