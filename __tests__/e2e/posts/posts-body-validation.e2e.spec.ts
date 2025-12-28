@@ -1,15 +1,12 @@
 import request from 'supertest';
 import { setupApp } from '../../../src/setup-app';
 import express from 'express';
-import {BlogInputDto} from "../../../src/blogs/application/dtos/blog.input-dto";
-import {PostInputDto} from "../../../src/posts/application/dtos/post.input-dto";
 import { HttpStatus } from '../../../src/core/types/http-statuses';
 import { generateBasicAuthToken } from '../../utils/generate-admin-auth-token';
 import { BLOGS_PATH, POSTS_PATH } from '../../../src/core/paths/paths';
 import { clearDb } from '../../utils/clear-db';
 import {runDB, stopDb} from "../../../src/db/mongo.bd";
 import {createPost} from "../../utils/posts/create-post";
-import {updatePost} from "../../utils/posts/update-post";
 import {SETTINGS} from "../../../src/core/settings/settings";
 import {getPostById} from "../../utils/posts/get-post-by-id";
 

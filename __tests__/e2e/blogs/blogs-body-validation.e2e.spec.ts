@@ -8,7 +8,6 @@ import { BLOGS_PATH } from '../../../src/core/paths/paths';
 import { getBlogDto } from '../../utils/blogs/get-blog-dto';
 import { clearDb } from '../../utils/clear-db';
 import { createBlog } from '../../utils/blogs/create-blog';
-import { getBlogById } from '../../utils/blogs/get-blog-by-id';
 import { runDB, stopDb } from '../../../src/db/mongo.bd';
 import {SETTINGS} from "../../../src/core/settings/settings";
 import {createBlogPost} from "../../utils/blogs/create-blog-post";
