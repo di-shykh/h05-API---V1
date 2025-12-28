@@ -1,7 +1,6 @@
 import request from "supertest";
 import {setupApp} from "../../../src/setup-app";
 import express from "express";
-import {BlogInputDto} from "../../../src/blogs/application/dtos/blog.input-dto";
 import {HttpStatus} from "../../../src/core/types/http-statuses";
 import {generateBasicAuthToken} from "../../utils/generate-admin-auth-token";
 import {BLOGS_PATH} from "../../../src/core/paths/paths";
@@ -12,13 +11,10 @@ import {getBlogDto} from "../../utils/blogs/get-blog-dto";
 import {createBlog} from "../../utils/blogs/create-blog";
 import {getBlogById} from "../../utils/blogs/get-blog-by-id";
 import {updateBlog} from "../../utils/blogs/update-blog";
-import {after} from "node:test";
-import {BlogUpdateInput} from "../../../src/blogs/routes/input/blog-update.input";
 import {BlogAttributes} from "../../../src/blogs/application/dtos/blog-attributes";
 import {PostOutput} from "../../../src/posts/routes/output/post-output";
 import {createBlogPost} from "../../utils/blogs/create-blog-post";
 import {getBlogPosts} from "../../utils/blogs/get-blog-post";
-import {SortDirection} from "../../../src/core/types/sort-direction";
 
 
 describe("Blogs API", () => {
