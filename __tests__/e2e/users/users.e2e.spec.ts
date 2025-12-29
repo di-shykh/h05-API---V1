@@ -23,7 +23,6 @@ describe( "Users API", ()=>{
         stopDb();
     });
     it( "should create a user; POST /hometask_05/api/users" , async () => {
-        console.log(getUserDto());
         await createUser(app, {
             ...getUserDto(),
             login: '5aE2_2c8OJ',
